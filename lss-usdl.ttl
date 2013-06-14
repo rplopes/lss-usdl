@@ -1,0 +1,172 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix gr: <http://purl.org/goodrelations/v1#> .
+@prefix gn: <http://www.geonames.org/ontology#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dbpedia: <http://dbpedia.org/> .
+@prefix bpmn: <http://www.scch.at/ontologies/bpmn20.owl> .
+
+@prefix lss-usdl: <http://genssiz.dei.uc.pt/lss-usdl#> .
+
+<http://genssiz.dei.uc.pt/lss-usdl> a owl:Ontology;
+    dc:title "LSS-USDL";
+    vann:preferredNamespaceUri "http://genssiz.dei.uc.pt/lss-usdl#";
+    vann:preferredNamespacePrefix "lss-usdl";
+    dc:creator lss-usdl:rplopes .
+
+lss-usdl:rplopes a foaf:Person;
+    foaf:name "Ricardo Lopes";
+    foaf:homepage <http://ricardolopes.net/> .
+
+lss-usdl:Genssiz a foaf:Organization;
+    foaf:member lss-usdl:rplopes;
+    foaf:name "Genssiz";
+    foaf:homepage <http://genssiz.dei.uc.pt/> .
+
+
+# Classes
+
+lss-usdl:ServiceSystem a rdfs:Class, owl:Class;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "ServiceSystem" .
+
+lss-usdl:Interaction a rdfs:Class, owl:Class;
+    rdfs:subClassOf skos:Concept;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "Interaction" .
+
+lss-usdl:Role a rdfs:Class, owl:Class;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "Role" .
+
+lss-usdl:Time a rdfs:Class, owl:Class;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "Time" .
+
+lss-usdl:Goal a rdfs:Class, owl:Class;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "Goal" .
+
+lss-usdl:Location a rdfs:Class, owl:Class;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "Location" .
+
+lss-usdl:Process a rdfs:Class, owl:Class;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "Process" .
+
+lss-usdl:Resource a rdfs:Class, owl:Class;
+    rdfs:subClassOf skos:Concept;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "Resource" .
+
+
+# Properties
+
+lss-usdl:hasInteraction a rdf:Property;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "has interaction";
+    rdfs:domain lss-usdl:ServiceSystem;
+    rdfs:range lss-usdl:Interaction .
+
+lss-usdl:isPerformedBy a rdf:Property;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "is performed by";
+    rdfs:domain lss-usdl:Interaction;
+    rdfs:range lss-usdl:Role .
+
+lss-usdl:hasTime a rdf:Property;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "has time";
+    rdfs:domain lss-usdl:Interaction;
+    rdfs:range lss-usdl:Time .
+
+lss-usdl:hasGoal a rdf:Property;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "has goal";
+    rdfs:domain lss-usdl:Interaction;
+    rdfs:range lss-usdl:Goal .
+
+lss-usdl:hasLocation a rdf:Property;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "has location";
+    rdfs:domain lss-usdl:Interaction;
+    rdfs:range lss-usdl:Location .
+
+lss-usdl:belongsToProcess a rdf:Property;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "belongs to process";
+    rdfs:domain lss-usdl:Interaction;
+    rdfs:range lss-usdl:Process .
+
+lss-usdl:receivesResource a rdf:Property;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "receives resource";
+    rdfs:domain lss-usdl:Interaction;
+    rdfs:range lss-usdl:Resource .
+
+lss-usdl:createsResource a rdf:Property;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "creates resource";
+    rdfs:domain lss-usdl:Interaction;
+    rdfs:range lss-usdl:Resource .
+
+lss-usdl:consumesResource a rdf:Property;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "consumes resource";
+    rdfs:domain lss-usdl:Interaction;
+    rdfs:range lss-usdl:Resource .
+
+lss-usdl:returnsResource a rdf:Property;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "returns resource";
+    rdfs:domain lss-usdl:Interaction;
+    rdfs:range lss-usdl:Resource .
+
+lss-usdl:belongsToBusinessEntity a rdf:Property;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "belongs to business entity";
+    rdfs:domain lss-usdl:Role;
+    rdfs:range gr:BusinessEntity .
+
+lss-usdl:hasTemporalEntity a rdf:Property;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "has temporal entity";
+    rdfs:domain lss-usdl:Time;
+    rdfs:range time:TemporalEntity .
+
+lss-usdl:isLocatedIn a rdf:Property;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "is located in";
+    rdfs:domain lss-usdl:Location;
+    rdfs:range lss-usdl:Location .
+
+lss-usdl:isLocationFrom a rdf:Property;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "is location from";
+    rdfs:domain lss-usdl:Location;
+    rdfs:range gn:Feature .
+
+lss-usdl:hasQuantitativeValue a rdf:Property;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "has quantitative value";
+    rdfs:domain lss-usdl:Resource;
+    rdfs:range gr:QuantitativeValue .
+
+lss-usdl:hasDBpediaResource a rdf:Property;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "has DBpedia resource";
+    rdfs:domain lss-usdl:Resource;
+    rdfs:range dbpedia:resource .
+
+lss-usdl:hasBPMN a rdf:Property;
+    rdfs:isDefinedBy <http://genssiz.dei.uc.pt/lss-usdl>;
+    rdfs:label "has BPMN";
+    rdfs:domain lss-usdl:Process;
+    rdfs:range bpmn:Process .

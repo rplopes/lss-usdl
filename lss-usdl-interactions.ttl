@@ -1,0 +1,63 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix gr: <http://purl.org/goodrelations/v1#> .
+@prefix gn: <http://www.geonames.org/ontology#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+@prefix lss-usdl: <http://genssiz.dei.uc.pt/lss-usdl#> .
+
+@prefix lss-usdl-i: <http://genssiz.dei.uc.pt/lss-usdl-interactions#> .
+
+<http://genssiz.dei.uc.pt/lss-usdl-interactions> a skos:ConceptScheme, owl:Ontology;
+    dc:title "LSS-USDL Interactions concept scheme";
+    vann:preferredNamespaceUri "http://genssiz.dei.uc.pt/lss-usdl-interactions#";
+    vann:preferredNamespacePrefix "lss-usdl-i";
+    dc:creator lss-usdl:rplopes;
+    skos:prefLabel "LSS-USDL Interactions"@en;
+    skos:hasTopConcept
+        lss-usdl-i:CustomerInteraction,
+        lss-usdl-i:OnstageInteraction,
+        lss-usdl-i:BackstageInteraction,
+        lss-usdl-i:SupportInteraction .
+
+lss-usdl:rplopes a foaf:Person;
+    foaf:name "Ricardo Lopes";
+    foaf:homepage <http://ricardolopes.net/> .
+
+lss-usdl:Genssiz a foaf:Organization;
+    foaf:member lss-usdl:rplopes;
+    foaf:name "Genssiz";
+    foaf:homepage <http://genssiz.dei.uc.pt/> .
+
+
+# Extended Service Blueprint Interactions
+
+lss-usdl-i:CustomerInteraction a rdfs:Class, lss-usdl:Interaction;
+    rdfs:label "Customer interaction"@en ;
+    skos:prefLabel "Customer interaction"@en ;
+    skos:topConceptOf <http://genssiz.dei.uc.pt/lss-usdl-interactions>;
+    skos:inScheme <http://genssiz.dei.uc.pt/lss-usdl-interactions> .
+
+lss-usdl-i:OnstageInteraction a rdfs:Class, lss-usdl:Interaction;
+    rdfs:label "Onstage interaction"@en ;
+    skos:prefLabel "Onstage interaction"@en ;
+    skos:topConceptOf <http://genssiz.dei.uc.pt/lss-usdl-interactions>;
+    skos:inScheme <http://genssiz.dei.uc.pt/lss-usdl-interactions> .
+
+lss-usdl-i:BackstageInteraction a rdfs:Class, lss-usdl:Interaction;
+    rdfs:label "Backstage interaction"@en ;
+    skos:prefLabel "Backstage interaction"@en ;
+    skos:topConceptOf <http://genssiz.dei.uc.pt/lss-usdl-interactions>;
+    skos:inScheme <http://genssiz.dei.uc.pt/lss-usdl-interactions> .
+
+lss-usdl-i:SupportInteraction a rdfs:Class, lss-usdl:Interaction;
+    rdfs:label "Support interaction"@en ;
+    skos:prefLabel "Support interaction"@en ;
+    skos:topConceptOf <http://genssiz.dei.uc.pt/lss-usdl-interactions>;
+    skos:inScheme <http://genssiz.dei.uc.pt/lss-usdl-interactions> .

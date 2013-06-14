@@ -1,0 +1,56 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix gr: <http://purl.org/goodrelations/v1#> .
+@prefix gn: <http://www.geonames.org/ontology#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+@prefix lss-usdl: <http://genssiz.dei.uc.pt/lss-usdl#> .
+
+@prefix lss-usdl-r: <http://genssiz.dei.uc.pt/lss-usdl-resources#> .
+
+<http://genssiz.dei.uc.pt/lss-usdl-resources> a skos:ConceptScheme, owl:Ontology;
+    dc:title "LSS-USDL Resources concept scheme";
+    vann:preferredNamespaceUri "http://genssiz.dei.uc.pt/lss-usdl-resources#";
+    vann:preferredNamespacePrefix "lss-usdl-r";
+    dc:creator lss-usdl:rplopes;
+    skos:prefLabel "LSS-USDL Resources"@en;
+    skos:hasTopConcept
+        lss-usdl-r:PhysicalResource,
+        lss-usdl-r:KnowledgeResource,
+        lss-usdl-r:FinancialResource .
+
+lss-usdl:rplopes a foaf:Person;
+    foaf:name "Ricardo Lopes";
+    foaf:homepage <http://ricardolopes.net/> .
+
+lss-usdl:Genssiz a foaf:Organization;
+    foaf:member lss-usdl:rplopes;
+    foaf:name "Genssiz";
+    foaf:homepage <http://genssiz.dei.uc.pt/> .
+
+
+# Types of Resources
+
+lss-usdl-r:PhysicalResource a rdfs:Class, lss-usdl:Resource;
+    rdfs:label "Physical resource"@en ;
+    skos:prefLabel "Physical resource"@en ;
+    skos:topConceptOf <http://genssiz.dei.uc.pt/lss-usdl-resources>;
+    skos:inScheme <http://genssiz.dei.uc.pt/lss-usdl-resources> .
+
+lss-usdl-r:KnowledgeResource a rdfs:Class, lss-usdl:Resource;
+    rdfs:label "Knowledge resource"@en ;
+    skos:prefLabel "Knowledge resource"@en ;
+    skos:topConceptOf <http://genssiz.dei.uc.pt/lss-usdl-resources>;
+    skos:inScheme <http://genssiz.dei.uc.pt/lss-usdl-resources> .
+
+lss-usdl-r:FinancialResource a rdfs:Class, lss-usdl:Resource;
+    rdfs:label "Financial resource"@en ;
+    skos:prefLabel "Financial resource"@en ;
+    skos:topConceptOf <http://genssiz.dei.uc.pt/lss-usdl-resources>;
+    skos:inScheme <http://genssiz.dei.uc.pt/lss-usdl-resources> .

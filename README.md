@@ -55,3 +55,130 @@ A `Location` can have a broader location through the property `isLocatedIn`. Thi
 `Time` is connected to a `TemporalEntity` of the OWL-Time ontology through the property `hasTemporalEnity`. This enables a very rich temporal description, such as the duration of the itneraction, its date or its temporal relation to other interactions.
 
 A `Resource` is connected to a `QuantitativeValue` of the ontology GoodRelations through the property `hasQuantitativeValue` to assign it values such as quantities, units, etc. It is also connected to a DBpedia `Resource` through the property `hasDBpediaResource` to get an unambiguous semantic meaning.
+
+## Getting Started Tutorial
+
+A service system modeled in LSS-USDL is represented by RDF statements. We will use the Turtle notation because it's cleaner and easy to read and edit.
+
+The first step is to create a file that will hold the service model. For an express mail delivery service system we may create the file maildelivery.ttl. These are the RDF prefixes used in the examples (you may add others and remove any that you might not use):
+
+```
+@prefix : <http://genssiz.org/lss-usdl/expressmail#> . # this is the prefix for our example, change the URL to match yours
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix gr: <http://purl.org/goodrelations/v1> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix gn: <http://www.geonames.org/ontology#> .
+@prefix lss-usdl: <http://genssiz.dei.uc.pt/lss-usdl#> .
+```
+
+The first element to add is the service system. We can use RDF properties to give any element a label and a comment:
+
+```
+# Add the service system
+:ExpressMailDelivery a lss-usdl:ServiceSystem;
+  rdfs:label "Express Mail Delivery";
+  rdfs:comment "A service system for delivering express mails".
+```
+
+Now we can start adding interactions. Everytime we add an interaction, it should be added to the service system's list of interactions:
+
+```
+# Change the service system
+:ExpressMailDelivery a lss-usdl:ServiceSystem;
+  rdfs:label "Express Mail Delivery";
+  rdfs:comment "A service system for delivering express mails";
+  lss-usdl:hasInteraction :CustomerCalls .
+
+# Add the interaction
+:CustomerCalls a lss-usdl:CustomerInteraction;
+  rdfs:label "Customer calls" .
+```
+
+That interaction still has no information, so the next step is to provide more useful context data. For new entities we need to create them and make the interaction point to them:
+
+```
+# Change the interaction
+:CustomerCalls a lss-usdl:CustomerInteraction;
+  rdfs:label "Customer calls";
+  lss-usdl:hasGoal :SendMail;
+  lss-usdl:isPerformedBy :Sender;
+  lss-usdl:hasLocation :SenderHome .
+
+# Add the goal
+:SendMail a lss-usdl:Goal;
+  rdfs:label "Send mail" .
+
+# Add the role
+:Sender a lss-usdl:Role;
+  rdfs:label "Sender" .
+
+# Add the location
+:SenderHome a lss-usdl:Location;
+  rdfs:label "Sender's home" .
+```
+
+For entities that have already been created we only need to point at them. So if we create a new interaction performed by an actor with the role "sender" we only need to point to it:
+
+```
+# Change the service system
+:ExpressMailDelivery a lss-usdl:ServiceSystem;
+  rdfs:label "Express Mail Delivery";
+  rdfs:comment "A service system for delivering express mails";
+  lss-usdl:hasInteraction :CustomerCalls,
+    :CustomerDeliversPackages .
+
+# Add the interaction
+:CustomerDeliversPackages a lss-usdl:CustomerInteraction;
+  rdfs:label "Customer delivers packages";
+  lss-usdl:isPerformedBy :Sender .
+```
+
+The code we have so far should now look like this:
+
+```
+@prefix : <http://genssiz.org/lss-usdl/expressmail#> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix gr: <http://purl.org/goodrelations/v1> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix gn: <http://www.geonames.org/ontology#> .
+@prefix lss-usdl: <http://genssiz.dei.uc.pt/lss-usdl#> .
+
+:ExpressMailDelivery a lss-usdl:ServiceSystem;
+  rdfs:label "Express Mail Delivery";
+  rdfs:comment "A service system for delivering express mails";
+  lss-usdl:hasInteraction :CustomerCalls,
+    :CustomerDeliversPackages .
+
+:CustomerCalls a lss-usdl:CustomerInteraction;
+  rdfs:label "Customer calls";
+  lss-usdl:hasGoal :SendMail;
+  lss-usdl:isPerformedBy :Sender;
+  lss-usdl:hasLocation :SenderHome .
+
+:CustomerDeliversPackages a lss-usdl:CustomerInteraction;
+  rdfs:label "Customer delivers packages";
+  lss-usdl:isPerformedBy :Sender .
+
+:SendMail a lss-usdl:Goal;
+  rdfs:label "Send mail" .
+
+:Sender a lss-usdl:Role;
+  rdfs:label "Sender" .
+
+:SenderHome a lss-usdl:Location;
+  rdfs:label "Sender's home" .
+```
+
+This was just a short getting start guide to explain how to use the LSS-USDL ontology to model service systems. The full code of this express mail delivery example is available in the use cases directory of the project, among with other examples to help you understand how to use this ontology.

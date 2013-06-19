@@ -1,0 +1,295 @@
+@prefix : <http://rdf.genssiz.org/lss-usdl/expressmaildelivery#> .
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix gr: <http://purl.org/goodrelations/v1#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix gn: <http://www.geonames.org/ontology#> .
+@prefix lss-usdl: <http://rdf.genssiz.dei.uc.pt/lss-usdl#> .
+
+
+# Service System
+
+:ExpressMailDelivery a lss-usdl:ServiceSystem;
+  rdfs:label "Express Mail Delivery";
+  rdfs:comment "A service system for delivering mail from a sender to a receiver.";
+  lss-usdl:hasInteraction :CustomerCalls,
+    :CustomerOrderIsRegistred,
+    :DispatchDriver,
+    :DriverPicksUpPackages,
+    :CustomerDeliversPackages,
+    :AirportReceivesAndLoads,
+    :FlyToDestination,
+    :UnloadAndLoadOnTruck,
+    :DriverDeliversPackages,
+    :AnotherCustomerReceivesPackage.
+
+
+# Business Entities
+
+:ExpressMailCompany a gr:BusinessEntity;
+  foaf:name "Express Mail Company".
+
+
+# Roles
+
+:Sender a lss-usdl:Role;
+	rdfs:label "Sender";
+	rdfs:comment "Customer who intends to send a mail to somebody else".
+	
+:Receiver a lss-usdl:Role;
+	rdfs:label "Receiver";
+	rdfs:comment "Customer who receives a mail using this service".
+
+:CallCenterStaff a lss-usdl:Role;
+	rdfs:label "Call-center staff";
+	rdfs:comment "Staff in the call-center that accepts new delivery requests and dispatches drivers";
+  lss-usdl:belongsToBusinessEntity :ExpressMailCompany.
+
+:Driver a lss-usdl:Role;
+	rdfs:label "Driver";
+	rdfs:comment "Vehicle driver that transports mail from sender to receiver";
+  lss-usdl:belongsToBusinessEntity :ExpressMailCompany.
+
+
+# Goals
+
+:SendMail a lss-usdl:Goal;
+	rdfs:label "Send mail";
+	rdfs:comment "Customer wants to send express mail to a specific destiny".
+
+:ReceiveMail a lss-usdl:Goal;
+	rdfs:label "Receive mail";
+	rdfs:comment "Customer wants to receive the intended express mail".
+
+
+# Locations
+
+:SenderRegion a lss-usdl:Location;
+  rdfs:label "Sender region".
+
+:ReceiverRegion a lss-usdl:Location;
+  rdfs:label "Receiver region".
+
+:SenderHome a lss-usdl:Location;
+	rdfs:label "Sender home";
+  lss-usdl:isLocatedIn :SenderRegion.
+
+:ReceiverHome a lss-usdl:Location;
+	rdfs:label "Receiver home";
+  lss-usdl:isLocatedIn :ReceiverRegion.
+
+:CallCenter a lss-usdl:Location;
+	rdfs:label "Call-center";
+  lss-usdl:isLocationFrom <http://sws.geonames.org/8010483/>.
+
+:SourceAirport a lss-usdl:Location;
+	rdfs:label "Source airport";
+  lss-usdl:isLocatedIn :SenderRegion.
+
+:DestinyAirport a lss-usdl:Location;
+	rdfs:label "Destiny airport";
+  lss-usdl:isLocatedIn :ReceiverRegion.
+
+
+# Resources
+
+:Mail a lss-usdl:PhysicalResource;
+	rdfs:label "Mail";
+	rdfs:comment "The intended package the sender wants to deliver to receiver";
+  lss-usdl:hasQuantitativeValue [
+    a gr:QuantitativeValue;
+    gr:hasMinValue 1
+  ].
+
+:SenderData a lss-usdl:KnowledgeResource;
+	rdfs:label "Sender data";
+	rdfs:comment "Name, address, etc. of sender".
+
+:ReceiverData a lss-usdl:KnowledgeResource;
+	rdfs:label "Receiver data";
+	rdfs:comment "Name, address, etc. of receiver".
+
+
+# Processes
+
+:MailDelivery a lss-usdl:Process;
+	rdfs:label "Mail delivery".
+
+
+# Next: flow of interactions
+
+
+# Customer calls
+
+:CustomerCallsTime a time:ProperInterval;
+  time:intervalEquals :CustomerOrderIsRegistredTime.
+
+:CustomerCalls a lss-usdl:CustomerInteraction;
+	rdfs:label "Customer calls";
+	lss-usdl:performedBy :Sender;
+	lss-usdl:hasGoal :SendMail;
+	lss-usdl:hasTime [
+    a lss-usdl:Time;
+    lss-usdl:hasTemporalEntity :CustomerCallsTime
+  ];
+	lss-usdl:hasLocation :SenderHome;
+	lss-usdl:belongsToProcess :MailDelivery;
+	lss-usdl:receivesResource :SenderData;
+	lss-usdl:receivesResource :ReceiverData.
+
+# Customer order is registred
+
+:CustomerOrderIsRegistredTime a time:ProperInterval;
+  time:intervalEquals :CustomerCallsTime;
+  time:intervalBefore :DispatchDriverTime.
+
+:CustomerOrderIsRegistred a lss-usdl:BackstageInteraction;
+	rdfs:label "Customer order is registred";
+	lss-usdl:performedBy :CallCenterStaff;
+	lss-usdl:hasGoal :SendMail;
+	lss-usdl:hasTime [
+    a lss-usdl:Time;
+    lss-usdl:hasTemporalEntity :CustomerOrderIsRegistredTime
+  ];
+	lss-usdl:hasLocation :CallCenter;
+	lss-usdl:belongsToProcess :MailDelivery.
+
+# Dispatch driver
+
+:DispatchDriverTime a time:ProperInterval;
+  time:intervalAfter :CustomerOrderIsRegistredTime;
+  time:intervalBefore :DriverPicksUpPackagesTime.
+
+:DispatchDriver a lss-usdl:SupportInteraction;
+	rdfs:label "Dispatch driver";
+	lss-usdl:performedBy :Driver;
+	lss-usdl:hasGoal :SendMail;
+	lss-usdl:hasTime [
+    a lss-usdl:Time;
+    lss-usdl:hasTemporalEntity :DispatchDriverTime
+  ];
+	lss-usdl:belongsToProcess :MailDelivery.
+
+# Driver picks up packages
+
+:DriverPicksUpPackagesTime a time:ProperInterval;
+  time:intervalAfter :DispatchDriverTime;
+  time:intervalEquals :CustomerDeliversPackagesTime;
+  time:intervalBefore :AirportReceivesAndLoadsTime.
+
+:DriverPicksUpPackages a lss-usdl:OnstageInteraction;
+	rdfs:label "Driver picks up packages";
+	lss-usdl:performedBy :Driver;
+	lss-usdl:hasGoal :SendMail;
+	lss-usdl:hasTime [
+    a lss-usdl:Time;
+    lss-usdl:hasTemporalEntity :DriverPicksUpPackagesTime
+  ];
+	lss-usdl:hasLocation :SenderHome;
+	lss-usdl:belongsToProcess :MailDelivery.
+
+# Customer delivers packages
+
+:CustomerDeliversPackagesTime a time:ProperInterval;
+  time:intervalEquals :DriverPicksUpPackagesTime.
+
+:CustomerDeliversPackages a lss-usdl:CustomerInteraction;
+	rdfs:label "Customer delivers packages";
+	lss-usdl:performedBy :Sender;
+	lss-usdl:hasGoal :SendMail;
+	lss-usdl:hasTime [
+    a lss-usdl:Time;
+    lss-usdl:hasTemporalEntity :CustomerDeliversPackagesTime
+  ];
+	lss-usdl:hasLocation :SenderHome;
+	lss-usdl:belongsToProcess :MailDelivery;
+	lss-usdl:receivesResource :Mail.
+
+# Airport receives and loads
+
+:AirportReceivesAndLoadsTime a time:ProperInterval;
+  time:intervalAfter :DriverPicksUpPackagesTime;
+  time:intervalBefore :FlyToDestinationTime.
+
+:AirportReceivesAndLoads a lss-usdl:SupportInteraction;
+	rdfs:label "Airport receives and loads";
+	lss-usdl:performedBy :Driver;
+	lss-usdl:hasGoal :SendMail;
+	lss-usdl:hasTime [
+    a lss-usdl:Time;
+    lss-usdl:hasTemporalEntity :AirportReceivesAndLoads
+  ];
+	lss-usdl:hasLocation :SourceAirport;
+	lss-usdl:belongsToProcess :MailDelivery.
+
+# Fly to destination
+
+:FlyToDestinationTime a time:ProperInterval;
+  time:intervalAfter :AirportReceivesAndLoadsTime;
+  time:intervalBefore :UnloadAndLoadOnTruckTime.
+
+:FlyToDestination a lss-usdl:SupportInteraction;
+	rdfs:label "Fly to destination";
+	lss-usdl:hasGoal :sendMail;
+	lss-usdl:hasTime [
+    a lss-usdl:Time;
+    lss-usdl:hasTemporalEntity :FlyToDestinationTime
+  ];
+	lss-usdl:belongsToProcess :MailDelivery;
+	lss-usdl:hasAreaOfAction :SupportProcesses.
+
+# Unload and load on truck
+
+:UnloadAndLoadOnTruckTime a time:ProperInterval;
+  time:intervalAfter :FlyToDestinationTime;
+  time:intervalBefore :DriverDeliversPackagesTime.
+
+:UnloadAndLoadOnTruck a lss-usdl:SupportInteraction;
+	rdfs:label "Unload and load on truck";
+	lss-usdl:performedBy :Driver;
+	lss-usdl:hasGoal :SendMail;
+	lss-usdl:hasTime [
+    a lss-usdl:Time;
+    lss-usdl:hasTemporalEntity :UnloadAndLoadOnTruckTime
+  ];
+	lss-usdl:hasLocation :DestinyAirport;
+	lss-usdl:belongsToProcess :MailDelivery.
+
+# Driver delivers packages
+
+:DriverDeliversPackagesTime a time:ProperInterval;
+  time:intervalAfter :UnloadAndLoadOnTruckTime;
+  time:intervalEquals :AnotherCustomerReceivesPackagesTime.
+
+:DriverDeliversPackages a lss-usdl:OnstageInteraction;
+	rdfs:label "Driver delivers packages";
+	lss-usdl:performedBy :Driver;
+	lss-usdl:hasGoal :ReceiveMail;
+	lss-usdl:hasTime [
+    a lss-usdl:Time;
+    lss-usdl:hasTemporalEntity :DriverDeliversPackagesTime
+  ];
+	lss-usdl:hasLocation :ReceiverHome;
+	lss-usdl:belongsToProcess :MailDelivery.
+
+# Another customer receives packages
+
+:AnotherCustomerReceivesPackagesTime a time:ProperInterval;
+  time:intervalEquals :DriverDeliversPackagesTime.
+
+:AnotherCustomerReceivesPackage a lss-usdl:CustomerInteraction;
+	rdfs:label "Another customer receives package";
+	lss-usdl:performedBy :Receiver;
+	lss-usdl:hasGoal :ReceiveMail;
+	lss-usdl:hasTime [
+    a lss-usdl:Time;
+    lss-usdl:hasTemporalEntity :AnotherCustomerReceivesPackagesTime
+  ];
+	lss-usdl:hasLocation :ReceiverHome;
+	lss-usdl:belongsToProcess :MailDelivery;
+	lss-usdl:returnsResource :Mail.

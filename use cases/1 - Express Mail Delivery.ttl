@@ -18,7 +18,7 @@
   rdfs:label "Express Mail Delivery";
   rdfs:comment "A service system for delivering mail from a sender to a receiver.";
   lss-usdl:hasInteraction :CustomerCalls,
-    :CustomerOrderIsRegistred,
+    :CustomerOrderIsRegistered,
     :DispatchDriver,
     :DriverPicksUpPackages,
     :CustomerDeliversPackages,
@@ -127,7 +127,7 @@
 # Customer calls
 
 :CustomerCallsTime a time:ProperInterval;
-  time:intervalEquals :CustomerOrderIsRegistredTime.
+  time:intervalEquals :CustomerOrderIsRegisteredTime.
 
 :CustomerCalls a lss-usdl:CustomerInteraction;
 	rdfs:label "Customer calls";
@@ -142,19 +142,19 @@
 	lss-usdl:receivesResource :SenderData;
 	lss-usdl:receivesResource :ReceiverData.
 
-# Customer order is registred
+# Customer order is registered
 
-:CustomerOrderIsRegistredTime a time:ProperInterval;
+:CustomerOrderIsRegisteredTime a time:ProperInterval;
   time:intervalEquals :CustomerCallsTime;
   time:intervalBefore :DispatchDriverTime.
 
-:CustomerOrderIsRegistred a lss-usdl:BackstageInteraction;
-	rdfs:label "Customer order is registred";
+:CustomerOrderIsRegistered a lss-usdl:BackstageInteraction;
+	rdfs:label "Customer order is registered";
 	lss-usdl:performedBy :CallCenterStaff;
 	lss-usdl:hasGoal :SendMail;
 	lss-usdl:hasTime [
     a lss-usdl:Time;
-    lss-usdl:hasTemporalEntity :CustomerOrderIsRegistredTime
+    lss-usdl:hasTemporalEntity :CustomerOrderIsRegisteredTime
   ];
 	lss-usdl:hasLocation :CallCenter;
 	lss-usdl:belongsToProcess :MailDelivery.
@@ -162,7 +162,7 @@
 # Dispatch driver
 
 :DispatchDriverTime a time:ProperInterval;
-  time:intervalAfter :CustomerOrderIsRegistredTime;
+  time:intervalAfter :CustomerOrderIsRegisteredTime;
   time:intervalBefore :DriverPicksUpPackagesTime.
 
 :DispatchDriver a lss-usdl:SupportInteraction;

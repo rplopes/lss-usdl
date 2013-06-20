@@ -1,4 +1,4 @@
-@prefix : <http://rdf.genssiz.org/lss-usdl/expressmaildelivery#> .
+@prefix : <http://genssiz.org/lss-usdl/expressmaildelivery#> .
 
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -9,7 +9,7 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix time: <http://www.w3.org/2006/time#> .
 @prefix gn: <http://www.geonames.org/ontology#> .
-@prefix lss-usdl: <http://rdf.genssiz.dei.uc.pt/lss-usdl#> .
+@prefix lss-usdl: <http://genssiz.dei.uc.pt/lss-usdl#> .
 
 
 # Service System

@@ -1,0 +1,67 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix usdl: <http://www.linked-usdl.org/ns/usdl#> .
+
+@prefix : <http://genssiz.dei.uc.pt/research/service-design/klinkr#> .
+
+
+:Klinkr a usdl:Service;
+  rdfs:label "klinkr";
+  rdfs:comment "klinkr is the new way to share photos of places you've been to and to find amazing new locations to visit all around the globe." .
+
+:User a usdl:InteractingEntity;
+  rdfs:label "User";
+  rdfs:comment "Web and mobile user that submits and browses photos.";
+  usdl:hasEntityType [
+    a usdl:Consumer
+  ] .
+
+:Photo a rdf:Resource;
+  rdfs:label "Photo";
+  rdfs:comment "Photo of a travelling site. Ideally, it should have geolocation metadata for easier identification of the place." .
+
+:HotelReservation a rdf:Resource;
+  rdfs:label "Hotel reservation";
+  rdfs:comment "A reservation made through klinkr to a hotel near a travelling destination." .
+
+:RatingInfo a rdf:Resource;
+  rdfs:label "Rating info";
+  rdfs:comment "A rating that a user does to a photo or location." .
+
+:SharePhotos a usdl:InteractionPoint;
+  rdfs:label "Share photos";
+  rdfs:comment "Users can share photos of places through the website or directly from their mobile phones.";
+  usdl:receives :Photo;
+  usdl:hasInteractingEntity :User .
+
+:ViewPhotos a usdl:InteractionPoint;
+  rdfs:label "View photos";
+  rdfs:comment "Users can browse the entire online catalogue of user-submited photos.";
+  usdl:yields :Photo;
+  usdl:hasInteractingEntity :User;
+  usdl:spansInterval :ViewPhotosTime .
+
+:ViewPhotosTime a time:ProperInterval .
+
+:LinkToHotelReservation a usdl:InteractionPoint;
+  rdfs:label "Link to hotel reservation";
+  rdfs:comment "Users can make a hotel reservation for a travelling destiny when viewing photos of that destiny.";
+  usdl:yields :HotelReservation;
+  usdl:hasInteractingEntity :User;
+  usdl:spansInterval :LinkToHotelReservationTime .
+
+:LinkToHotelReservationTime a time:ProperInterval;
+  time:intervalAfter :ViewPhotosTime .
+
+:Rate a usdl:InteractionPoint;
+  rdfs:label "Rate";
+  rdfs:comment "Users can rate photos and locations to help filtering the best content.";
+  usdl:receives :RatingInfo;
+  usdl:hasInteractingEntity :User;
+  usdl:spansInterval :RateInterval .
+
+:RateTime a time:ProperInterval;
+  time:intervalAfter :ViewPhotosTime .

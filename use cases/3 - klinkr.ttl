@@ -1,0 +1,73 @@
+@prefix : <http://genssiz.dei.uc.pt/research/service-design/klinkr#> .
+@prefix lss-usdl: <http://genssiz.dei.uc.pt/lss-usdl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+
+:Klinkr a lss-usdl:ServiceSystem;
+   rdfs:label "klinkr";
+   lss-usdl:hasInteraction :SharePhotos,
+     :ViewPhotos,
+     :LinkToHotelReservation,
+     :Rate;
+   rdfs:comment "klinkr is the new way to share photos of places you've been to and to find amazing new locations to visit all around the globe." .
+
+:HotelReservation a lss-usdl:Resource;
+   rdfs:label "Hotel reservation";
+   rdfs:comment "A reservation made through klinkr to a hotel near a travelling destination." .
+
+:LinkToHotelReservation a lss-usdl:CustomerInteraction;
+   rdfs:label "Link to hotel reservation";
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :LinkToHotelReservationTime];
+   lss-usdl:isPerformedBy :User;
+   lss-usdl:returnsResource :HotelReservation;
+   rdfs:comment "Users can make a hotel reservation for a travelling destiny when viewing photos of that destiny." .
+
+:Rate a lss-usdl:CustomerInteraction;
+   rdfs:label "Rate";
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :RateTime];
+   lss-usdl:isPerformedBy :User;
+   lss-usdl:receivesResource :RatingInfo;
+   rdfs:comment "Users can rate photos and locations to help filtering the best content." .
+
+:RatingInfo a lss-usdl:Resource;
+   rdfs:label "Rating info";
+   rdfs:comment "A rating that a user does to a photo or location." .
+
+:SharePhotos a lss-usdl:CustomerInteraction;
+   rdfs:label "Share photos";
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :SharePhotosTime];
+   lss-usdl:isPerformedBy :User;
+   lss-usdl:receivesResource :Photo;
+   rdfs:comment "Users can share photos of places through the website or directly from their mobile phones." .
+
+:SharePhotosTime a time:ProperInterval .
+
+:ViewPhotos a lss-usdl:CustomerInteraction;
+   rdfs:label "View photos";
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :ViewPhotosTime];
+   lss-usdl:isPerformedBy :User;
+   lss-usdl:returnsResource :Photo;
+   rdfs:comment "Users can browse the entire online catalogue of user-submited photos." .
+
+:LinkToHotelReservationTime a time:ProperInterval;
+   time:intervalAfter :ViewPhotosTime .
+
+:Photo a lss-usdl:Resource;
+   rdfs:label "Photo";
+   rdfs:comment "Photo of a travelling site. Ideally, it should have geolocation metadata for easier identification of the place." .
+
+:RateTime a time:ProperInterval;
+   time:intervalAfter :ViewPhotosTime .
+
+:ViewPhotosTime a time:ProperInterval;
+   time:intervalBefore :LinkToHotelReservationTime,
+     :RateTime .
+
+:User a lss-usdl:Role;
+   rdfs:label "User";
+   rdfs:comment "Web and mobile user that submits and browses photos." .

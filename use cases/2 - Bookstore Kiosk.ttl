@@ -1,0 +1,399 @@
+@prefix : <http://genssiz.org/lss-usdl/bookstorekiosk#> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix gr: <http://purl.org/goodrelations/v1#> .
+@prefix lss-usdl: <http://genssiz.dei.uc.pt/lss-usdl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:BookstoreKiosk a lss-usdl:ServiceSystem;
+   rdfs:label "Bookstore kiosk";
+   lss-usdl:hasInteraction :CustomerApproachesBookstoreKiosk,
+     :CustomerSwipesMemberCardLogsInKiosk,
+     :WelcomeScreen,
+     :KioskSoftwareQueries,
+     :CustomerDatabase,
+     :CustomerConsidersSuggestions,
+     :MembersProfileScreenSuggestionsPromotions,
+     :KioskReturnsUserProfileSuggestionsPromotions,
+     :MarketingDatabase,
+     :CustomerSearchesForBook,
+     :KioskSearchInterface,
+     :KioskSoftwareQueries1371743516,
+     :InventoryDbLocationDb,
+     :CustomerPrintsBookLocationMapAndCouponDiscounts,
+     :BookLocationAndTailoredPromotions,
+     :KioskReturnsBookLocationBundledPromotionalDiscounts,
+     :CustomerWalksToBookLocationsAndRetrievesBooks,
+     :CustomerPurchasesBooks,
+     :CheckoutAndRegisters,
+     :SystemLogsCustomerPurchases,
+     :CustomerDbInventoryDb;
+   rdfs:comment "Kiosk available in a bookstore for customers and staff to interact with" .
+
+:BookLocationAndTailoredPromotions a lss-usdl:OnstageInteraction;
+   rdfs:label "Book location and tailored promotions";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:createsResource :BookLocationPaper;
+   lss-usdl:hasGoal :PurchaseBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :BookLocationAndTailoredPromotionsTime];
+   lss-usdl:isPerformedBy :Kiosk .
+
+:Books a lss-usdl:PhysicalResource;
+   rdfs:label "Books";
+   lss-usdl:hasDBpediaResource dbpedia:Book;
+   lss-usdl:hasQuantitativeValue [ a gr:QuantitativeValue;
+     gr:hasMinValue 1];
+   rdfs:comment "The books in the bookstore to be bought by the customer" .
+
+:BooksPayment a lss-usdl:FinancialResource;
+   rdfs:label "Books' payment";
+   lss-usdl:hasPriceSpecification [ a gr:PriceSpecification;
+     gr:hasCurrency "€";
+     gr:hasMinCurrencyValue 1.99];
+   rdfs:comment "Actual value depends on the selected books' price" .
+
+:CheckoutAndRegisters a lss-usdl:OnstageInteraction;
+   rdfs:label "Checkout and registers";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:hasGoal :PurchaseBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :CheckoutAndRegistersTime];
+   lss-usdl:isPerformedBy :Kiosk .
+
+:CustomerApproachesBookstoreKiosk a lss-usdl:CustomerInteraction;
+   rdfs:label "Customer approaches bookstore kiosk";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:hasGoal :PurchaseBooks,
+     :DiscoverNewBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :CustomerApproachesBookstoreKioskTime];
+   lss-usdl:isPerformedBy :Customer .
+
+:CustomerConsidersSuggestions a lss-usdl:CustomerInteraction;
+   rdfs:label "Customer considers suggestions";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:hasGoal :PurchaseBooks,
+     :DiscoverNewBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :CustomerConsidersSuggestionsTime];
+   lss-usdl:isPerformedBy :Customer;
+   lss-usdl:returnsResource :SuggestionsData .
+
+:CustomerDatabase a lss-usdl:SupportInteraction;
+   rdfs:label "Customer database";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:hasGoal :PurchaseBooks,
+     :DiscoverNewBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :CustomerDatabaseTime];
+   lss-usdl:isPerformedBy :Dbms .
+
+:CustomerDbInventoryDb a lss-usdl:SupportInteraction;
+   rdfs:label "Customer DB / Inventory DB";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:hasGoal :PurchaseBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :CustomerDbInventoryDbTime];
+   lss-usdl:isPerformedBy :Dbms .
+
+:CustomerIdentification a lss-usdl:KnowledgeResource;
+   rdfs:label "Customer identification";
+   rdfs:comment "Customer ID, profile, etc" .
+
+:CustomerPrintsBookLocationMapAndCouponDiscounts a lss-usdl:CustomerInteraction;
+   rdfs:label "Customer prints book location map and coupon discounts";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:hasGoal :PurchaseBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :CustomerPrintsBookLocationMapAndCouponDiscountsTime];
+   lss-usdl:isPerformedBy :Customer;
+   lss-usdl:returnsResource :BookLocationPaper .
+
+:CustomerPurchasesBooks a lss-usdl:CustomerInteraction;
+   rdfs:label "Customer purchases books";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:hasGoal :PurchaseBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :CustomerPurchasesBooksTime];
+   lss-usdl:isPerformedBy :Customer;
+   lss-usdl:receivesResource :BooksPayment;
+   lss-usdl:returnsResource :Books .
+
+:CustomerSearchesForBook a lss-usdl:CustomerInteraction;
+   rdfs:label "Customer searches for book";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:hasGoal :PurchaseBooks,
+     :DiscoverNewBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :CustomerSearchesForBookTime];
+   lss-usdl:isPerformedBy :Customer;
+   lss-usdl:returnsResource :BookData .
+
+:CustomerSwipesMemberCardLogsInKiosk a lss-usdl:CustomerInteraction;
+   rdfs:label "Customer swipes member card, logs in kiosk";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:hasGoal :PurchaseBooks,
+     :DiscoverNewBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :CustomerSwipesMemberCardLogsInKioskTime];
+   lss-usdl:isPerformedBy :Customer;
+   lss-usdl:receivesResource :CustomerIdentification .
+
+:CustomerWalksToBookLocationsAndRetrievesBooks a lss-usdl:CustomerInteraction;
+   rdfs:label "Customer walks to book locations and retrieves books";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:hasGoal :PurchaseBooks;
+   lss-usdl:hasLocation :Bookstore;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :CustomerWalksToBookLocationsAndRetrievesBooksTime];
+   lss-usdl:isPerformedBy :Customer .
+
+:InventoryDbLocationDb a lss-usdl:SupportInteraction;
+   rdfs:label "Inventory DB / Location DB";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:hasGoal :PurchaseBooks,
+     :DiscoverNewBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :InventoryDbLocationDbTime];
+   lss-usdl:isPerformedBy :Dbms .
+
+:KioskReturnsBookLocationBundledPromotionalDiscounts a lss-usdl:BackstageInteraction;
+   rdfs:label "Kiosk returns book location, bundled promotional discounts";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:hasGoal :PurchaseBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :KioskReturnsBookLocationBundledPromotionalDiscountsTime];
+   lss-usdl:isPerformedBy :Kiosk .
+
+:KioskReturnsUserProfileSuggestionsPromotions a lss-usdl:BackstageInteraction;
+   rdfs:label "Kiosk returns user profile, suggestions, promotions";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:createsResource :SuggestionsData;
+   lss-usdl:hasGoal :PurchaseBooks,
+     :DiscoverNewBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :KioskReturnsUserProfileSuggestionsPromotionsTime];
+   lss-usdl:isPerformedBy :Kiosk .
+
+:KioskSearchInterface a lss-usdl:OnstageInteraction;
+   rdfs:label "Kiosk search interface";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:hasGoal :PurchaseBooks,
+     :DiscoverNewBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :KioskSearchInterfaceTime];
+   lss-usdl:isPerformedBy :Kiosk .
+
+:KioskSoftwareQueries a lss-usdl:BackstageInteraction;
+   rdfs:label "Kiosk software queries";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:hasGoal :PurchaseBooks,
+     :DiscoverNewBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :KioskSoftwareQueriesTime];
+   lss-usdl:isPerformedBy :Kiosk .
+
+:KioskSoftwareQueries1371743516 a lss-usdl:BackstageInteraction;
+   rdfs:label "Kiosk software queries";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:createsResource :BookData;
+   lss-usdl:hasGoal :PurchaseBooks,
+     :DiscoverNewBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :KioskSoftwareQueries1371743516Time];
+   lss-usdl:isPerformedBy :Kiosk .
+
+:MarketingDatabase a lss-usdl:SupportInteraction;
+   rdfs:label "Marketing database";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:hasGoal :PurchaseBooks,
+     :DiscoverNewBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :MarketingDatabaseTime];
+   lss-usdl:isPerformedBy :Dbms .
+
+:MembersProfileScreenSuggestionsPromotions a lss-usdl:OnstageInteraction;
+   rdfs:label "Members profile screen, Suggestions, Promotions";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:hasGoal :PurchaseBooks,
+     :DiscoverNewBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :MembersProfileScreenSuggestionsPromotionsTime];
+   lss-usdl:isPerformedBy :Kiosk .
+
+:SystemLogsCustomerPurchases a lss-usdl:BackstageInteraction;
+   rdfs:label "System logs customer purchases";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:hasGoal :PurchaseBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :SystemLogsCustomerPurchasesTime];
+   lss-usdl:isPerformedBy :Kiosk .
+
+:WelcomeScreen a lss-usdl:OnstageInteraction;
+   rdfs:label "Welcome screen";
+   lss-usdl:belongsToProcess :CustomerInteractions;
+   lss-usdl:hasGoal :PurchaseBooks,
+     :DiscoverNewBooks;
+   lss-usdl:hasLocation :KioskStand;
+   lss-usdl:hasTime [ a lss-usdl:Time;
+     lss-usdl:hasTemporalEntity :WelcomeScreenTime];
+   lss-usdl:isPerformedBy :Kiosk .
+
+:BookData a lss-usdl:KnowledgeResource;
+   rdfs:label "Book data";
+   rdfs:comment "Author, title, publisher, etc." .
+
+:BookLocationPaper a lss-usdl:PhysicalResource;
+   rdfs:label "Book location paper";
+   lss-usdl:hasQuantitativeValue [ a gr:QuantitativeValue;
+     gr:hasValue 1];
+   rdfs:comment "Printed paper showing where the customer may find the desired book in that bookstore" .
+
+:Bookland a gr:BusinessEntity;
+   gr:description "The smart bookstore with the bookstore kiosk";
+   foaf:name "Bookland" .
+
+:Bookstore a lss-usdl:Location;
+   rdfs:label "Bookstore";
+   lss-usdl:isLocationFrom <http://sws.geonames.org/8010483>;
+   rdfs:comment "The physical location of the bookstore" .
+
+:CustomerApproachesBookstoreKioskTime a time:ProperInterval;
+   time:intervalBefore :CustomerSwipesMemberCardLogsInKioskTime .
+
+:CustomerDatabaseTime a time:ProperInterval;
+   time:intervalEquals :KioskSoftwareQueriesTime .
+
+:CustomerDbInventoryDbTime a time:ProperInterval;
+   time:intervalEquals :SystemLogsCustomerPurchasesTime .
+
+:InventoryDbLocationDbTime a time:ProperInterval;
+   time:intervalEquals :KioskSoftwareQueries1371743490Time .
+
+:KioskReturnsBookLocationBundledPromotionalDiscountsTime a time:ProperInterval;
+   time:intervalEquals :BookLocationAndTailoredPromotionsTime .
+
+:KioskSoftwareQueries1371743516Time a time:ProperInterval;
+   time:intervalEquals :InventoryDbLocationDbTime,
+     :KioskSearchInterfaceTime .
+
+:MarketingDatabaseTime a time:ProperInterval;
+   time:intervalEquals :KioskReturnsUserProfileSuggestionsPromotionsTime .
+
+:SuggestionsData a lss-usdl:KnowledgeResource;
+   rdfs:label "Suggestions data";
+   rdfs:comment "List of suggestions automatically generated based on user profile" .
+
+:BookLocationAndTailoredPromotionsTime a time:ProperInterval;
+   time:intervalEquals :KioskReturnsBookLocationBundledPromotionalDiscountsTime,
+     :CustomerPrintsBookLocationMapAndCouponDiscountsTime .
+
+:CheckoutAndRegistersTime a time:ProperInterval;
+   time:intervalEquals :SystemLogsCustomerPurchasesTime,
+     :CustomerPurchasesBooksTime .
+
+:CustomerConsidersSuggestionsTime a time:ProperInterval;
+   time:intervalAfter :CustomerSwipesMemberCardLogsInKioskTime;
+   time:intervalEquals :MembersProfileScreenSuggestionsPromotionsTime .
+
+:CustomerPurchasesBooksTime a time:ProperInterval;
+   time:intervalAfter :CustomerWalksToBookLocationsAndRetrievesBooksTime;
+   time:intervalEquals :CheckoutAndRegistersTime .
+
+:CustomerWalksToBookLocationsAndRetrievesBooksTime a time:ProperInterval;
+   time:intervalAfter :CustomerPrintsBookLocationMapAndCouponDiscountsTime;
+   time:intervalBefore :CustomerPurchasesBooksTime .
+
+:KioskReturnsUserProfileSuggestionsPromotionsTime a time:ProperInterval;
+   time:intervalEquals :MarketingDatabaseTime,
+     :MembersProfileScreenSuggestionsPromotionsTime .
+
+:KioskSearchInterfaceTime a time:ProperInterval;
+   time:intervalEquals :KioskSoftwareQueries1371743516Time,
+     :CustomerSearchesForBookTime .
+
+:KioskSoftwareQueriesTime a time:ProperInterval;
+   time:intervalEquals :CustomerDatabaseTime,
+     :WelcomeScreenTime .
+
+:MembersProfileScreenSuggestionsPromotionsTime a time:ProperInterval;
+   time:intervalEquals :KioskReturnsUserProfileSuggestionsPromotionsTime,
+     :CustomerConsidersSuggestionsTime .
+
+:SystemLogsCustomerPurchasesTime a time:ProperInterval;
+   time:intervalEquals :CustomerDbInventoryDbTime,
+     :CheckoutAndRegistersTime .
+
+:WelcomeScreenTime a time:ProperInterval;
+   time:intervalEquals :KioskSoftwareQueriesTime,
+     :CustomerSwipesMemberCardLogsInKioskTime .
+
+:CustomerPrintsBookLocationMapAndCouponDiscountsTime a time:ProperInterval;
+   time:intervalAfter :CustomerSearchesForBookTime;
+   time:intervalBefore :CustomerWalksToBookLocationsAndRetrievesBooksTime;
+   time:intervalEquals :BookLocationAndTailoredPromotionsTime .
+
+:CustomerSearchesForBookTime a time:ProperInterval;
+   time:intervalAfter :CustomerSwipesMemberCardLogsInKioskTime;
+   time:intervalBefore :CustomerPrintsBookLocationMapAndCouponDiscountsTime;
+   time:intervalEquals :KioskSearchInterfaceTime .
+
+:Dbms a lss-usdl:Role;
+   rdfs:label "DBMS";
+   lss-usdl:belongsToBusinessEntity :Bookland;
+   rdfs:comment "The database management system of the bookstore that holds all its information such as customer and books data" .
+
+:CustomerSwipesMemberCardLogsInKioskTime a time:ProperInterval;
+   time:intervalAfter :CustomerApproachesBookstoreKioskTime;
+   time:intervalBefore :CustomerConsidersSuggestionsTime,
+     :CustomerSearchesForBookTime;
+   time:intervalEquals :WelcomeScreenTime .
+
+:Customer a lss-usdl:Role;
+   rdfs:label "Customer";
+   rdfs:comment "Visitor of the bookstore that will want to buy books" .
+
+:Kiosk a lss-usdl:Role;
+   rdfs:label "Kiosk";
+   lss-usdl:belongsToBusinessEntity :Bookland;
+   rdfs:comment "Machine that interacts with customers and staff to facilitate their goals" .
+
+:DiscoverNewBooks a lss-usdl:Goal;
+   rdfs:label "Discover new books";
+   rdfs:comment "The customer might want to find new books to buy before committing to a purchase" .
+
+:KioskStand a lss-usdl:Location;
+   rdfs:label "Kiosk stand";
+   lss-usdl:isLocatedIn :Bookstore;
+   rdfs:comment "The place inside the bookstore where the kiosk is placed" .
+
+:CustomerInteractions a lss-usdl:Process;
+   rdfs:label "Customer interactions";
+   rdfs:comment "Workflow for the kiosk front-office to deal with bookstore customers" .
+
+:PurchaseBooks a lss-usdl:Goal;
+   rdfs:label "Purchase books";
+   rdfs:comment "The ultimate goal of a customer is to purchase one or more books" .

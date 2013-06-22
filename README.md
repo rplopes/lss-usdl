@@ -1,6 +1,9 @@
 LSS-USDL
 =========
 
+[![Creative Commons License](http://i.creativecommons.org/l/by/3.0/80x15.png)](http://creativecommons.org/licenses/by/3.0/)
+This work is licensed under a [Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/).
+
 Linked Service Systems for USDL (LSS-USDL) is an ontology for modeling service systems in RDF. This brings many advantages to organizations that make use of this ontology:
 
  - The resulting service models may be used as documentation for the service operations or to generate service descriptions for various stakeholders

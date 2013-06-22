@@ -23,17 +23,17 @@ This contextualization of service interactions is the core of LSS-USDL. It is ca
 
 ### Extending Interactions and Resources
 
-For those familiarized with the service blueprint, it is also possible to further describe an interaction, based on its area of action. This means that an interaction in LSS-USDL can be classified as customer interaction, onstage interaction, backstage interaction and support interaction.
+For those familiarized with the service blueprint, it is also possible to further describe an interaction based on its area of action. This means that an interaction in LSS-USDL can be classified as customer interaction, onstage interaction, backstage interaction and support interaction.
 
 Resources may also be further described according to their nature. A resource in LSS-USDL can be classified as a physical resource (such as a package), a knowledge resource (such as a customer's profile) or a financial resource (such as a payment).
 
-These classifications are depicted in the images directory of the project.
+These classifications are depicted in the images directory of the project. Note, however, that their use is not mandatory, and because they are defined as SKOS concept schemes, you can replace them with your own.
 
 ### Ontology Elements
 
 A graph of the full ontology may be viewed in the images directory of the project. This subsection explains its elements and their relations.
 
-`ServiceSystem` is the entity that represents the service system that is being modeled. A `ServiceSystem` is connected to `Interaction`, which represents service interactions, through the property `hasInteraction`.
+`ServiceSystem` is the entity that represents the service system that is being modeled. A `ServiceSystem` is connected to an `Interaction`, which represents service interactions, through the property `hasInteraction`.
 
 `Interaction` is connected to the following elements:
 
@@ -46,34 +46,28 @@ A graph of the full ontology may be viewed in the images directory of the projec
 
 These core elements can also be connected to other elements of the Linked Data Cloud, in order to provide richer information and better disambiguations.
 
-A `Role` can also be connected to a `BusinessEntity` of the ontology GoodRelations through the property `hasBusinessEntity`. This makes it possible to explain which company or other stakeholder is responsible for that role.
+A `Role` can also be connected to a `BusinessEntity` of the ontology [GoodRelations](http://www.heppnetz.de/ontologies/goodrelations/v1) through the property `hasBusinessEntity`. This makes it possible to explain which company or other stakeholder is responsible for that role.
 
-A `Process` can be connected to a `Process` of the BPMN 2.0 ontology through the property `hasBPMN`. This enables linking the service model with the previously defined process model.
+A `Process` can be connected to a `Process` of the [BPMN 2.0](http://www.scch.at/en/Page56-8330.aspx) ontology through the property `hasBPMN`. This enables linking the service model with the previously defined process model.
 
-A `Location` can have a broader location through the property `isLocatedIn`. This enables a hierarchy that lest us express knowledge such as "Room A is located in Building 1, therefore an interaction happening in Room A is also happening in Building 1". A `Location` can also be connected to a `Feature` of the Geonames ontology through the property `isLoationFrom` to assign it an unambiguous geographical meaning.
+A `Location` can have a broader location through the property `isLocatedIn`. This enables a hierarchy that lest us express knowledge such as "Room A is located in Building 1, therefore an interaction happening in Room A is also happening in Building 1". A `Location` can also be connected to a `Feature` of the [Geonames](http://www.geonames.org/ontology/documentation.html) ontology through the property `isLoationFrom` to assign it an unambiguous geographical meaning.
 
-`Time` is connected to a `TemporalEntity` of the OWL-Time ontology through the property `hasTemporalEnity`. This enables a very rich temporal description, such as the duration of the itneraction, its date or its temporal relation to other interactions.
+`Time` is connected to a `TemporalEntity` of the [OWL-Time](http://www.w3.org/TR/owl-time) ontology through the property `hasTemporalEnity`. This enables a very rich temporal description, such as the duration of the interaction, its date or its temporal relation to other interactions.
 
-A `Resource` is connected to a `QuantitativeValue` of the ontology GoodRelations through the property `hasQuantitativeValue` to assign it values such as quantities, units, etc. It is also connected to a DBpedia `Resource` through the property `hasDBpediaResource` to get an unambiguous semantic meaning.
+A `Resource` is connected to a `QuantitativeValue` of the ontology [GoodRelations](http://www.heppnetz.de/ontologies/goodrelations/v1) through the property `hasQuantitativeValue` to assign it values such as quantities, units, etc. It is also connected to a [DBpedia](http://dbpedia.org) `Resource` through the property `hasDBpediaResource` to get an unambiguous semantic meaning.
 
 ## Getting Started Tutorial
 
 A service system modeled in LSS-USDL is represented by RDF statements. We will use the Turtle notation because it's cleaner and easy to read and edit.
 
-The first step is to create a file that will hold the service model. For an express mail delivery service system we may create the file maildelivery.ttl. These are the RDF prefixes used in the examples (you may add others and remove any that you might not use):
+The first step is to create a file that will hold the service model. For an express mail delivery service system we may create the file maildelivery.ttl. These are the RDF prefixes we need for this tutorial (you may add others and remove any that you might not use):
 
 ```
 @prefix : <http://genssiz.org/lss-usdl/expressmail#> . # this is the prefix for our example, change the URL to match yours
 
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix gr: <http://purl.org/goodrelations/v1> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
-@prefix time: <http://www.w3.org/2006/time#> .
-@prefix gn: <http://www.geonames.org/ontology#> .
 @prefix lss-usdl: <http://genssiz.dei.uc.pt/lss-usdl#> .
 ```
 
@@ -86,7 +80,16 @@ The first element to add is the service system. We can use RDF properties to giv
   rdfs:comment "A service system for delivering express mails".
 ```
 
-Now we can start adding interactions. Everytime we add an interaction, it should be added to the service system's list of interactions:
+Note that, if we were using the RDF/XML notation, the same data would look like the following:
+
+```
+<lss-usdl:ServiceSystem rdf:about="#ExpressMailDelivery">
+  <rdfs:label>Express Mail Delivery</rdfs:label>
+  <rdfs:comment>A service system for delivering express mails</rdfs:comment>
+</lss-usdl:ServiceSystem>
+```
+
+Now we can start adding interactions. Every time we add an interaction, it should be added to the service system's list of interactions:
 
 ```
 # Change the service system
@@ -145,14 +148,8 @@ The code we have so far should now look like this:
 @prefix : <http://genssiz.org/lss-usdl/expressmail#> .
 
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix gr: <http://purl.org/goodrelations/v1> .
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
-@prefix time: <http://www.w3.org/2006/time#> .
-@prefix gn: <http://www.geonames.org/ontology#> .
 @prefix lss-usdl: <http://genssiz.dei.uc.pt/lss-usdl#> .
 
 :ExpressMailDelivery a lss-usdl:ServiceSystem;
@@ -182,3 +179,10 @@ The code we have so far should now look like this:
 ```
 
 This was just a short getting start guide to explain how to use the LSS-USDL ontology to model service systems. The full code of this express mail delivery example is available in the use cases directory of the project, among with other examples to help you understand how to use this ontology.
+
+## Useful links
+
+ - [USDL Incubator Group](http://www.w3.org/2005/Incubator/usdl): LSS-USDL is part of the research for service systems by the USDL research group.
+ - [Linked USDL](http://www.linked-usdl.org): Similar project, focusing on service descriptions for customers. The third use case found in LSS-USDL's repository shows a service system modeled both in LSS-USDL and Linked USDL.
+ - [Linked USDL core](https://github.com/linked-usdl/usdl-core): Repository for the core module of Linked USDL. The other modules may be found under the same Github profile.
+ - [Semantic Web](http://semanticweb.org/wiki/Main_Page): Technologies such as RDF are a core component of LSS-USDL.

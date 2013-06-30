@@ -185,6 +185,7 @@ This was just a short getting start guide to explain how to use the LSS-USDL ont
 
 ## Useful links
 
+ - [LSS-USDL Editor](https://github.com/rplopes/lss-usdl_editor): Open source repository of the LSS-USDL graphical editor.
  - [USDL Incubator Group](http://www.w3.org/2005/Incubator/usdl): LSS-USDL is part of the research for service systems by the USDL research group.
  - [Linked USDL](http://www.linked-usdl.org): Similar project, focusing on service descriptions for customers. The third use case found in LSS-USDL's repository shows a service system modeled both in LSS-USDL and Linked USDL.
  - [Linked USDL core](https://github.com/linked-usdl/usdl-core): Repository for the core module of Linked USDL. The other modules may be found under the same Github profile.

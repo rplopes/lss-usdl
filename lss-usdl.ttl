@@ -18,7 +18,8 @@
     dc:title "LSS-USDL";
     vann:preferredNamespaceUri "http://genssiz.dei.uc.pt/lss-usdl#";
     vann:preferredNamespacePrefix "lss-usdl";
-    dc:creator lss-usdl:rplopes .
+    dc:creator lss-usdl:rplopes,
+    dc:creator <http://linked-usdl.org/ns/usdl#jcardoso> .
 
 lss-usdl:rplopes a foaf:Person;
     foaf:name "Ricardo Lopes";
@@ -28,6 +29,15 @@ lss-usdl:Genssiz a foaf:Organization;
     foaf:member lss-usdl:rplopes;
     foaf:name "Genssiz";
     foaf:homepage <http://genssiz.dei.uc.pt/> .
+
+<http://linked-usdl.org/ns/usdl#jcardoso> a foaf:Person;
+    foaf:name "Jorge Cardoso";
+    foaf:homepage <http://eden.dei.uc.pt/~jcardoso/> .
+
+<http://linked-usdl.org/ns/usdl#CISUC%2C%20University%20of%20Coimbra> a foaf:Organization;
+    foaf:member <http://linked-usdl.org/ns/usdl#jcardoso>;
+    foaf:name "CISUC/DEI, University of Coimbra";
+    foaf:homepage <http://www.dei.uc.pt> .
 
 
 # Classes
